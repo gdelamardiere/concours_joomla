@@ -13,23 +13,41 @@ jimport('joomla.application.component.view');
          * concours view display method
          * @return void
          */
-        function display($tpl = null) 
+        public function display($tpl = null) 
         {
-                // Get data from the model
-        	$items = $this->get('Items');
-        	$pagination = $this->get('Pagination');
-
+                // get the Data
+                $form = $this->get('Form');
+                $item = $this->get('Item');
+ 
                 // Check for errors.
-        	if (count($errors = $this->get('Errors'))) 
-        	{
-        		JError::raiseError(500, implode('<br />', $errors));
-        		return false;
-        	}
-                // Assign data to the view
-        	$this->items = $items;
-        	$this->pagination = $pagination;
-
+                if (count($errors = $this->get('Errors'))) 
+                {
+                        JError::raiseError(500, implode('<br />', $errors));
+                        return false;
+                }
+                // Assign the Data
+                $this->form = $form;
+                $this->item = $item;
+ 
+                // Set the toolbar
+                $this->addToolBar();
+ 
                 // Display the template
-        	parent::display($tpl);
+                parent::display($tpl);
+        }
+ 
+        /**
+         * Setting the toolbar
+         */
+        protected function addToolBar() 
+        {
+                $input = JFactory::getApplication()->input;
+                $input->set('hidemainmenu', true);
+                $isNew = ($this->item->id == 0);
+                JToolBarHelper::title($isNew ? JText::_('COM_CONCOURS_MANAGER_CONCOURS_NEW')
+                                             : JText::_('COM_CONCOURS_MANAGER_CONCOURS_EDIT'));
+                JToolBarHelper::save('concours.save');
+                JToolBarHelper::cancel('concours.cancel', $isNew ? 'JTOOLBAR_CANCEL'
+                                                                   : 'JTOOLBAR_CLOSE');
         }
     }

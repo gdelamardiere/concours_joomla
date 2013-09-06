@@ -11,7 +11,9 @@ foreach($this->items as $i => $item): ?>
                         <?php echo JHtml::_('grid.id', $i, $item->id); ?>
                 </td>
                 <td>
-                        <?php echo $item->libelle; ?>
+                        <a href="<?php echo JRoute::_('index.php?option=com_concours&task=concours.edit&id=' . $item->id); ?>">
+                                <?php echo $item->libelle; ?>
+                        </a>
                 </td>
         </tr>
 <?php endforeach; ?>

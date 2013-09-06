@@ -2,27 +2,59 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
- // import the Joomla modellist library
-jimport('joomla.application.component.modellist');
+ // import Joomla modelform library
+jimport('joomla.application.component.modeladmin');
 
-/**
- * HelloWorldList Model
+ /**
+ * concours Model
  */
-class concoursModelconcours extends JModelList{
+class concoursModelconcours extends JModelAdmin{
         /**
-         * Method to build an SQL query to load the list data.
+         * Returns a reference to the a Table object, always creating it.
          *
-         * @return      string  An SQL query
+         * @param       type    The table type to instantiate
+         * @param       string  A prefix for the table class name. Optional.
+         * @param       array   Configuration array for model. Optional.
+         * @return      JTable  A database object
+         * @since       2.5
          */
-        protected function getListQuery()
+        public function getTable($type = 'concours', $prefix = 'concoursTable', $config = array()) 
         {
-                // Create a new query object.           
-                $db = JFactory::getDBO();
-                $query = $db->getQuery(true);
-                // Select some fields
-                $query->select('id,libelle');
-                // From the hello table
-                $query->from('#__concours');
-                return $query;
+                return JTable::getInstance($type, $prefix, $config);
+        }
+        /**
+         * Method to get the record form.
+         *
+         * @param       array   $data           Data for the form.
+         * @param       boolean $loadData       True if the form is to load its own data (default case), false if not.
+         * @return      mixed   A JForm object on success, false on failure
+         * @since       2.5
+         */
+        public function getForm($data = array(), $loadData = true) 
+        {
+                // Get the form.
+                $form = $this->loadForm('com_concours.concours', 'concours',
+                                        array('control' => 'jform', 'load_data' => $loadData));
+                if (empty($form)) 
+                {
+                        return false;
+                }
+                return $form;
+        }
+        /**
+         * Method to get the data that should be injected in the form.
+         *
+         * @return      mixed   The data for the form.
+         * @since       2.5
+         */
+        protected function loadFormData() 
+        {
+                // Check the session for previously entered form data.
+                $data = JFactory::getApplication()->getUserState('com_concours.edit.concours.data', array());
+                if (empty($data)) 
+                {
+                        $data = $this->getItem();
+                }
+                return $data;
         }
 }
