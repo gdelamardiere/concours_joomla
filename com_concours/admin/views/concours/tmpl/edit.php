@@ -3,8 +3,9 @@
 defined('_JEXEC') or die('Restricted Access');
 
  // load tooltip behavior
-JHtml::_('behavior.tooltip');?>
-<form action="<?php echo JRoute::_('index.php?option=com_concours&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="concours-form">
+JHtml::_('behavior.tooltip');
+JHtml::_('behavior.formvalidation');?>
+<form action="<?php echo JRoute::_('index.php?option=com_concours&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="concours-form" class="form-validate">
         <fieldset class="adminform">
                 <legend><?php echo JText::_( 'COM_CONCOURS_CONCOURS_DETAILS' ); ?></legend>
                 <ul class="adminformlist"><?php foreach($this->form->getFieldset() as $field): ?>
