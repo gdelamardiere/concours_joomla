@@ -16,7 +16,12 @@ class concoursController extends JController{
         function display($cachable = false) 
         {
                 // set default view if not set
-                JRequest::setVar('view', JRequest::getCmd('view', 'concoursList'));
+                if(JRequest::getCmd('view', 'ConcoursList')=="concours" && JRequest::getCmd('layout', 'default')!="edit"){
+                        JRequest::setVar('view', 'ConcoursList');
+                }
+                else{
+                      JRequest::setVar('view', JRequest::getCmd('view', 'ConcoursList'));  
+                }               
  
                 // call parent behavior
                 parent::display($cachable);
