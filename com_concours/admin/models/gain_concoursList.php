@@ -8,7 +8,7 @@ jimport('joomla.application.component.modellist');
 /**
  * HelloWorldList Model
  */
-class concoursModelconcoursList extends JModelList{
+class concoursModelgain_concoursList extends JModelList{
         /**
          * Method to build an SQL query to load the list data.
          *
@@ -16,13 +16,13 @@ class concoursModelconcoursList extends JModelList{
          */
         protected function getListQuery()
         {
-                // Create a new query object.           
+                $id_concours=intval(JRequest::getCmd('id_concours', '1'));              
                 $db = JFactory::getDBO();
                 $query = $db->getQuery(true);
-                // Select some fields
-                $query->select('c.id,c.libelle,c.nb_gagnant,c.tirage,(select count(*) from #__participant p where p.id_concours=c.id) as nb_participant');
-                // From the hello table
-                $query->from('#__concours c');
+                $query->select('g.id,g.place,g.lot,c.libelle as libelle_concours,c.id as id_concours');
+                $query->where('id_concours='.$id_concours);
+                $query->from('#__gain_concours g, #__concours c');
+                $query->where('g.id_concours=c.id');
                 return $query;
         }
 }
